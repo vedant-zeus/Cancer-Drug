@@ -10,74 +10,137 @@
     <div class="container">
       <!-- Header -->
       <div class="header">
-        <h1>💊 Cancer Drug Predictive Analysis</h1>
-        <p>Predict drug efficacy and patient response</p>
+        <h1>🧬 Cancer Drug Response Predictor</h1>
+        <p>Genomic & Drug Sensitivity Analysis</p>
       </div>
 
       <div class="content">
         <!-- Input Form -->
         <div class="form-section">
-          <h2>Patient Information & Drug Details</h2>
+          <h2>Genomic Data & Drug Sensitivity Input</h2>
           <form id="predictionForm">
             <div class="form-group">
-              <label for="patientAge">Patient Age:</label>
+              <label for="cancerType">Cancer Type:</label>
+              <select id="cancerType" required>
+                <option value="">Select Cancer Type</option>
+                <option value="breast">Breast Cancer</option>
+                <option value="lung">Lung Cancer</option>
+                <option value="colorectal">Colorectal Cancer</option>
+                <option value="melanoma">Melanoma</option>
+                <option value="ovarian">Ovarian Cancer</option>
+                <option value="lymphoma">Lymphoma</option>
+                <option value="leukemia">Leukemia</option>
+              </select>
+            </div>
+
+            <div class="section-title">📊 Genomic Markers</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tmb">TMB (Tumor Mutational Burden) per Mb:</label>
+                <input
+                  type="number"
+                  id="tmb"
+                  placeholder="0-100 mutations/Mb"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="msi">MSI Status:</label>
+                <select id="msi" required>
+                  <option value="">Select MSI Status</option>
+                  <option value="mss">MSS (Microsatellite Stable)</option>
+                  <option value="msi-l">MSI-L (Low)</option>
+                  <option value="msi-h">MSI-H (High)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pdl1">PD-L1 Expression (%):</label>
+                <input
+                  type="number"
+                  id="pdl1"
+                  placeholder="0-100%"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="mmr">MMR Status:</label>
+                <select id="mmr" required>
+                  <option value="">Select MMR Status</option>
+                  <option value="proficient">Proficient (pMMR)</option>
+                  <option value="deficient">Deficient (dMMR)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tp53">TP53 Mutation Status:</label>
+                <select id="tp53" required>
+                  <option value="">Select TP53 Status</option>
+                  <option value="wildtype">Wild-type</option>
+                  <option value="mutated">Mutated</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="brca">BRCA1/BRCA2 Status:</label>
+                <select id="brca" required>
+                  <option value="">Select BRCA Status</option>
+                  <option value="wildtype">Wild-type</option>
+                  <option value="mutated">Mutated</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="driverMutations"
+                >Driver Mutations (comma-separated):</label
+              >
               <input
-                type="number"
-                id="patientAge"
-                placeholder="Enter age (18-100)"
-                min="18"
-                max="100"
+                type="text"
+                id="driverMutations"
+                placeholder="e.g., EGFR, KRAS, ALK, ROS1"
                 required
               />
             </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="cancerStage">Cancer Stage:</label>
-                <select id="cancerStage" required>
-                  <option value="">Select Stage</option>
-                  <option value="1">Stage I (Early)</option>
-                  <option value="2">Stage II (Intermediate)</option>
-                  <option value="3">Stage III (Advanced)</option>
-                  <option value="4">Stage IV (Metastatic)</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="tumorSize">Tumor Size (mm):</label>
-                <input
-                  type="number"
-                  id="tumorSize"
-                  placeholder="Enter size in mm"
-                  min="0"
-                  max="500"
-                  required
-                />
-              </div>
-            </div>
+            <div class="section-title">💊 Drug Sensitivity Data</div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="geneExpression">Gene Expression Level:</label>
+                <label for="ic50">IC50 Value (μM):</label>
                 <input
                   type="number"
-                  id="geneExpression"
-                  placeholder="0.0 - 10.0"
-                  min="0"
+                  id="ic50"
+                  placeholder="0.001-10"
+                  min="0.001"
                   max="10"
-                  step="0.1"
+                  step="0.001"
                   required
                 />
               </div>
 
               <div class="form-group">
-                <label for="mutationCount">Mutation Count:</label>
+                <label for="auc">AUC Score:</label>
                 <input
                   type="number"
-                  id="mutationCount"
-                  placeholder="Number of mutations"
+                  id="auc"
+                  placeholder="0.0-1.0"
                   min="0"
-                  max="1000"
+                  max="1"
+                  step="0.01"
                   required
                 />
               </div>
@@ -85,42 +148,85 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label for="whiteBloodCells">White Blood Cells (K/uL):</label>
-                <input
-                  type="number"
-                  id="whiteBloodCells"
-                  placeholder="3-11 normal range"
-                  min="0"
-                  max="50"
-                  step="0.1"
-                  required
-                />
+                <label for="drugName">Drug Name:</label>
+                <select id="drugName" required>
+                  <option value="">Select Drug</option>
+                  <option value="pembrolizumab">
+                    Pembrolizumab (Keytruda)
+                  </option>
+                  <option value="nivolumab">Nivolumab (Opdivo)</option>
+                  <option value="gefitinib">Gefitinib (Iressa)</option>
+                  <option value="erlotinib">Erlotinib (Tarceva)</option>
+                  <option value="crizotinib">Crizotinib (Xalkori)</option>
+                  <option value="cisplatin">Cisplatin</option>
+                  <option value="carboplatin">Carboplatin</option>
+                  <option value="docetaxel">Docetaxel</option>
+                  <option value="paclitaxel">Paclitaxel</option>
+                  <option value="trastuzumab">Trastuzumab (Herceptin)</option>
+                </select>
               </div>
 
               <div class="form-group">
-                <label for="drugType">Drug Type:</label>
-                <select id="drugType" required>
-                  <option value="">Select Drug</option>
+                <label for="drugClass">Drug Class:</label>
+                <select id="drugClass" required>
+                  <option value="">Select Class</option>
+                  <option value="checkpoint-inhibitor">
+                    Checkpoint Inhibitor
+                  </option>
+                  <option value="tyrosine-kinase-inhibitor">TKI</option>
                   <option value="chemotherapy">Chemotherapy</option>
-                  <option value="targeted">Targeted Therapy</option>
-                  <option value="immunotherapy">Immunotherapy</option>
-                  <option value="combination">Combination Therapy</option>
+                  <option value="monoclonal-antibody">
+                    Monoclonal Antibody
+                  </option>
+                  <option value="targeted-therapy">Targeted Therapy</option>
                 </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cyp3a4">CYP3A4 Metabolism:</label>
+                <select id="cyp3a4" required>
+                  <option value="">Select Metabolism</option>
+                  <option value="poor">Poor Metabolizer</option>
+                  <option value="intermediate">Intermediate Metabolizer</option>
+                  <option value="extensive">Extensive Metabolizer</option>
+                  <option value="ultrarapid">Ultra-rapid Metabolizer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="resistanceScore">Resistance Score (0-100):</label>
+                <input
+                  type="number"
+                  id="resistanceScore"
+                  placeholder="0-100"
+                  min="0"
+                  max="100"
+                  required
+                />
               </div>
             </div>
 
             <div class="form-group">
-              <label for="priorTreatment">Prior Treatment History:</label>
-              <select id="priorTreatment" required>
+              <label for="clinicalResponse">Prior Clinical Response:</label>
+              <select id="clinicalResponse" required>
                 <option value="">Select Option</option>
-                <option value="none">No Prior Treatment</option>
-                <option value="chemotherapy">Previous Chemotherapy</option>
-                <option value="radiation">Previous Radiation</option>
-                <option value="multiple">Multiple Prior Treatments</option>
+                <option value="sensitive">
+                  Sensitive (Complete/Partial Response)
+                </option>
+                <option value="intermediate">
+                  Intermediate (Stable Disease)
+                </option>
+                <option value="resistant">
+                  Resistant (Progressive Disease)
+                </option>
               </select>
             </div>
 
-            <button type="submit" class="submit-btn">Predict Efficacy</button>
+            <button type="submit" class="submit-btn">
+              Predict Drug Response
+            </button>
           </form>
         </div>
 
@@ -130,7 +236,7 @@
 
           <div class="result-card">
             <div class="result-header">
-              <h3>Drug Efficacy Score</h3>
+              <h3>Drug Response Prediction Score</h3>
               <div class="efficacy-percentage" id="efficacyScore">0%</div>
             </div>
             <div class="progress-bar">
@@ -139,26 +245,35 @@
           </div>
 
           <div class="result-card">
-            <h3>Response Prediction</h3>
+            <h3>Predicted Response Category</h3>
             <div class="prediction-result" id="predictionResult"></div>
           </div>
 
           <div class="result-card">
-            <h3>Risk Assessment</h3>
-            <div class="risk-assessment">
+            <h3>Genomic-Drug Compatibility</h3>
+            <div id="genomicCompatibility" class="genomic-info"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>Sensitivity Assessment</h3>
+            <div class="sensitivity-assessment">
               <p>
-                <strong>Side Effect Risk:</strong>
-                <span class="risk-badge" id="sideEffectRisk"></span>
+                <strong>IC50 Interpretation:</strong>
+                <span class="risk-badge" id="ic50Interpretation"></span>
               </p>
               <p>
-                <strong>Treatment Tolerance:</strong>
-                <span class="risk-badge" id="treatmentTolerance"></span>
+                <strong>Drug Resistance Risk:</strong>
+                <span class="risk-badge" id="resistanceRisk"></span>
+              </p>
+              <p>
+                <strong>Genetic Compatibility:</strong>
+                <span class="risk-badge" id="geneticCompatibility"></span>
               </p>
             </div>
           </div>
 
           <div class="result-card">
-            <h3>Recommended Action</h3>
+            <h3>Clinical Recommendation</h3>
             <div class="recommendation" id="recommendation"></div>
           </div>
 
@@ -169,22 +284,45 @@
 
         <!-- Info Section -->
         <div class="info-section">
-          <h2>About This Analysis</h2>
+          <h2>About Genomic-Drug Sensitivity Prediction</h2>
           <p>
-            This predictive analysis tool uses patient parameters and drug
-            characteristics to estimate treatment efficacy. Results are for
-            educational purposes and should not replace professional medical
-            advice.
+            This tool predicts cancer drug response based on genomic markers and
+            drug sensitivity data. It analyzes tumor mutational characteristics
+            and drug-specific parameters to estimate treatment efficacy.
           </p>
           <div class="info-list">
-            <p><strong>Factors Considered:</strong></p>
+            <p><strong>🧬 Genomic Markers Analyzed:</strong></p>
             <ul>
-              <li>Patient demographics and health status</li>
-              <li>Tumor characteristics and staging</li>
-              <li>Genetic markers and mutations</li>
-              <li>Drug type and mechanism</li>
-              <li>Prior treatment history</li>
+              <li>
+                Tumor Mutational Burden (TMB) - Indicates immune response
+                potential
+              </li>
+              <li>
+                Microsatellite Instability (MSI) - Associated with checkpoint
+                inhibitor response
+              </li>
+              <li>PD-L1 Expression - Predictive for immunotherapy response</li>
+              <li>
+                Mismatch Repair (MMR) Status - Impacts treatment selection
+              </li>
+              <li>Driver Mutations - Gene-specific treatment targeting</li>
+              <li>
+                TP53 & BRCA Status - Associated with treatment sensitivity
+              </li>
             </ul>
+            <p><strong>💊 Drug Sensitivity Parameters:</strong></p>
+            <ul>
+              <li>IC50 - Concentration required for 50% growth inhibition</li>
+              <li>AUC - Area Under Curve; measure of drug efficacy</li>
+              <li>Resistance Score - Likelihood of acquired resistance</li>
+              <li>Drug Metabolism - CYP3A4 status affects bioavailability</li>
+            </ul>
+            <p style="margin-top: 15px; color: #666; font-size: 0.95em">
+              <strong>⚠️ Disclaimer:</strong> Results are for research and
+              educational purposes. Clinical decisions should be made in
+              consultation with oncologists using comprehensive patient data and
+              clinical trial evidence.
+            </p>
           </div>
         </div>
       </div>
@@ -199,104 +337,235 @@
         });
 
       function predictEfficacy() {
-        // Get form values
-        const age = parseInt(document.getElementById("patientAge").value);
-        const stage = parseInt(document.getElementById("cancerStage").value);
-        const tumorSize = parseFloat(
-          document.getElementById("tumorSize").value,
+        // Get genomic data
+        const cancerType = document.getElementById("cancerType").value;
+        const tmb = parseFloat(document.getElementById("tmb").value);
+        const msi = document.getElementById("msi").value;
+        const pdl1 = parseFloat(document.getElementById("pdl1").value);
+        const mmr = document.getElementById("mmr").value;
+        const tp53 = document.getElementById("tp53").value;
+        const brca = document.getElementById("brca").value;
+        const driverMutations =
+          document.getElementById("driverMutations").value;
+
+        // Get drug sensitivity data
+        const ic50 = parseFloat(document.getElementById("ic50").value);
+        const auc = parseFloat(document.getElementById("auc").value);
+        const drugName = document.getElementById("drugName").value;
+        const drugClass = document.getElementById("drugClass").value;
+        const cyp3a4 = document.getElementById("cyp3a4").value;
+        const resistanceScore = parseFloat(
+          document.getElementById("resistanceScore").value,
         );
-        const geneExpression = parseFloat(
-          document.getElementById("geneExpression").value,
-        );
-        const mutationCount = parseInt(
-          document.getElementById("mutationCount").value,
-        );
-        const wbc = parseFloat(
-          document.getElementById("whiteBloodCells").value,
-        );
-        const drugType = document.getElementById("drugType").value;
-        const priorTreatment = document.getElementById("priorTreatment").value;
+        const clinicalResponse =
+          document.getElementById("clinicalResponse").value;
 
-        // Calculate efficacy score (0-100)
-        let efficacy = 100;
+        // Calculate response prediction score (0-100)
+        let responseScore = 50; // Baseline
 
-        // Age factor
-        if (age < 30 || age > 75) efficacy -= 10;
-        if (age > 80) efficacy -= 10;
+        // Genomic factors
+        // TMB factor - higher TMB generally indicates better immunotherapy response
+        if (drugClass === "checkpoint-inhibitor") {
+          if (tmb > 20) responseScore += 15;
+          else if (tmb > 10) responseScore += 10;
+          else if (tmb > 5) responseScore += 5;
+          else responseScore -= 10;
+        } else if (tmb > 15) {
+          responseScore += 5;
+        }
 
-        // Stage factor (lower stage = higher efficacy)
-        efficacy -= (stage - 1) * 15;
+        // MSI factor - MSI-H associated with better response
+        if (msi === "msi-h") {
+          responseScore += 12;
+        } else if (msi === "msi-l") {
+          responseScore += 4;
+        } else if (msi === "mss") {
+          responseScore -= 5;
+        }
 
-        // Tumor size factor
-        if (tumorSize > 50) efficacy -= 20;
-        else if (tumorSize > 20) efficacy -= 10;
+        // PD-L1 expression
+        if (drugClass === "checkpoint-inhibitor") {
+          if (pdl1 > 50) responseScore += 15;
+          else if (pdl1 > 1) responseScore += 10;
+          else responseScore -= 8;
+        }
 
-        // Gene expression factor
-        efficacy += (geneExpression / 10) * 15;
+        // MMR status
+        if (mmr === "deficient") {
+          responseScore += 10;
+        } else {
+          responseScore -= 5;
+        }
 
-        // Mutation count factor
-        if (mutationCount > 500) efficacy -= 15;
-        else if (mutationCount > 200) efficacy -= 8;
+        // TP53 and BRCA mutations
+        if (tp53 === "mutated" && drugClass === "targeted-therapy") {
+          responseScore -= 8;
+        } else if (tp53 === "mutated") {
+          responseScore -= 3;
+        }
 
-        // WBC factor
-        if (wbc < 3 || wbc > 11) efficacy -= 10;
+        if (brca === "mutated") {
+          responseScore += 8;
+        }
 
-        // Drug type factor
-        if (drugType === "combination") efficacy += 15;
-        else if (drugType === "targeted") efficacy += 10;
+        // Drug sensitivity factors
+        // IC50 factor - lower IC50 indicates higher sensitivity
+        if (ic50 < 0.01) {
+          responseScore += 18;
+        } else if (ic50 < 0.1) {
+          responseScore += 15;
+        } else if (ic50 < 1) {
+          responseScore += 10;
+        } else if (ic50 < 5) {
+          responseScore += 5;
+        } else {
+          responseScore -= 15;
+        }
 
-        // Prior treatment factor
-        if (priorTreatment === "multiple") efficacy -= 20;
-        else if (
-          priorTreatment === "chemotherapy" ||
-          priorTreatment === "radiation"
-        )
-          efficacy -= 5;
+        // AUC factor
+        if (auc > 0.8) {
+          responseScore += 12;
+        } else if (auc > 0.6) {
+          responseScore += 8;
+        } else if (auc > 0.4) {
+          responseScore += 3;
+        } else {
+          responseScore -= 10;
+        }
+
+        // Resistance score impact
+        if (resistanceScore > 70) {
+          responseScore -= 20;
+        } else if (resistanceScore > 50) {
+          responseScore -= 12;
+        } else if (resistanceScore > 30) {
+          responseScore -= 5;
+        }
+
+        // Metabolism factor
+        if (cyp3a4 === "poor") {
+          responseScore += 5; // Better drug accumulation
+        } else if (cyp3a4 === "ultrarapid") {
+          responseScore -= 10; // Reduced drug levels
+        }
+
+        // Prior clinical response
+        if (clinicalResponse === "sensitive") {
+          responseScore += 20;
+        } else if (clinicalResponse === "intermediate") {
+          responseScore += 8;
+        } else if (clinicalResponse === "resistant") {
+          responseScore -= 25;
+        }
 
         // Ensure score is within 0-100
-        efficacy = Math.max(0, Math.min(100, efficacy));
+        responseScore = Math.max(0, Math.min(100, responseScore));
 
         // Update UI
         document.getElementById("efficacyScore").textContent =
-          Math.round(efficacy) + "%";
-        document.getElementById("progressFill").style.width = efficacy + "%";
+          Math.round(responseScore) + "%";
+        document.getElementById("progressFill").style.width =
+          responseScore + "%";
 
-        // Prediction response
+        // Determine response category and assessments
         let prediction = "";
-        let riskLevel = "";
-        let tolerance = "";
+        let genomicCompatibility = "";
+        let ic50Interp = "";
+        let resistanceRisk = "";
+        let geneticCompat = "";
         let recommendation = "";
 
-        if (efficacy >= 80) {
+        // Response category
+        if (responseScore >= 85) {
           prediction =
-            '<span class="excellent">Excellent Response Expected</span>';
-          riskLevel = '<span class="low">Low</span>';
-          tolerance = '<span class="high">High</span>';
-          recommendation =
-            "Proceed with recommended drug. Monitor regularly for response.";
-        } else if (efficacy >= 60) {
-          prediction = '<span class="good">Good Response Expected</span>';
-          riskLevel = '<span class="moderate">Moderate</span>';
-          tolerance = '<span class="moderate">Moderate</span>';
-          recommendation =
-            "Drug may be effective. Regular monitoring and dose adjustment may be needed.";
-        } else if (efficacy >= 40) {
-          prediction = '<span class="fair">Fair Response Expected</span>';
-          riskLevel = '<span class="moderate">Moderate</span>';
-          tolerance = '<span class="low">Low</span>';
-          recommendation =
-            "Consider alternative therapies or combination approach. Consult oncologist.";
+            '<span class="excellent">Highly Sensitive - Strong Response Expected</span>';
+        } else if (responseScore >= 70) {
+          prediction =
+            '<span class="good">Sensitive - Good Response Expected</span>';
+        } else if (responseScore >= 50) {
+          prediction =
+            '<span class="fair">Moderate Sensitivity - Partial Response Likely</span>';
+        } else if (responseScore >= 30) {
+          prediction =
+            '<span class="poor">Low Sensitivity - Limited Response Expected</span>';
         } else {
-          prediction = '<span class="poor">Poor Response Expected</span>';
-          riskLevel = '<span class="high">High</span>';
-          tolerance = '<span class="low">Low</span>';
+          prediction =
+            '<span class="poor">Resistant - Poor Response Expected</span>';
+        }
+
+        // IC50 interpretation
+        if (ic50 < 0.1) {
+          ic50Interp =
+            '<span class="high">High Sensitivity (Very Low IC50)</span>';
+        } else if (ic50 < 1) {
+          ic50Interp =
+            '<span class="moderate">Moderate Sensitivity (Low IC50)</span>';
+        } else if (ic50 < 5) {
+          ic50Interp =
+            '<span class="moderate">Intermediate (Moderate IC50)</span>';
+        } else {
+          ic50Interp = '<span class="low">Low Sensitivity (High IC50)</span>';
+        }
+
+        // Resistance risk
+        if (resistanceScore > 70) {
+          resistanceRisk = '<span class="high">High Risk</span>';
+        } else if (resistanceScore > 40) {
+          resistanceRisk = '<span class="moderate">Moderate Risk</span>';
+        } else {
+          resistanceRisk = '<span class="low">Low Risk</span>';
+        }
+
+        // Genetic compatibility
+        let compatFactors = 0;
+        if (msi === "msi-h") compatFactors++;
+        if (mmr === "deficient") compatFactors++;
+        if (pdl1 > 1 && drugClass === "checkpoint-inhibitor") compatFactors++;
+        if (tmb > 10) compatFactors++;
+        if (brca === "mutated") compatFactors++;
+
+        if (compatFactors >= 4) {
+          geneticCompat = '<span class="high">Excellent Compatibility</span>';
+        } else if (compatFactors >= 2) {
+          geneticCompat = '<span class="moderate">Good Compatibility</span>';
+        } else {
+          geneticCompat = '<span class="low">Limited Compatibility</span>';
+        }
+
+        // Genomic compatibility details
+        genomicCompatibility =
+          '<div style="font-size: 0.95em; line-height: 1.8;">';
+        genomicCompatibility += `<p><strong>TMB:</strong> ${tmb} mut/Mb (${tmb > 10 ? "High" : "Low"} burden)</p>`;
+        genomicCompatibility += `<p><strong>MSI Status:</strong> ${msi.toUpperCase()}</p>`;
+        genomicCompatibility += `<p><strong>PD-L1:</strong> ${pdl1}% expression</p>`;
+        genomicCompatibility += `<p><strong>Driver Mutations:</strong> ${driverMutations}</p>`;
+        genomicCompatibility += "</div>";
+
+        // Clinical recommendation
+        if (responseScore >= 85) {
           recommendation =
-            "Alternative treatment options should be explored. Seek specialist consultation.";
+            "Strong candidate for this drug. Highly likely to achieve clinical response. Recommend proceeding with treatment with close monitoring.";
+        } else if (responseScore >= 70) {
+          recommendation =
+            "Good candidate for this drug. Expected response rate is favorable. Monitor for efficacy and adjust dosage as needed.";
+        } else if (responseScore >= 50) {
+          recommendation =
+            "Moderate sensitivity expected. Consider combination therapy or alternative drugs. Regular response assessment recommended.";
+        } else if (responseScore >= 30) {
+          recommendation =
+            "Low probability of response. Explore alternative drug options with better genomic-drug compatibility or combination approaches.";
+        } else {
+          recommendation =
+            "Unlikely to respond based on genomic profile and drug sensitivity. Strongly recommend exploring alternative therapeutic options or seeking clinical trial enrollment.";
         }
 
         document.getElementById("predictionResult").innerHTML = prediction;
-        document.getElementById("sideEffectRisk").innerHTML = riskLevel;
-        document.getElementById("treatmentTolerance").innerHTML = tolerance;
+        document.getElementById("genomicCompatibility").innerHTML =
+          genomicCompatibility;
+        document.getElementById("ic50Interpretation").innerHTML = ic50Interp;
+        document.getElementById("resistanceRisk").innerHTML = resistanceRisk;
+        document.getElementById("geneticCompatibility").innerHTML =
+          geneticCompat;
         document.getElementById("recommendation").textContent = recommendation;
 
         // Show results section

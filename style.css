@@ -58,6 +58,16 @@ body {
     padding-bottom: 10px;
 }
 
+.section-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin: 25px 0 20px 0;
+    font-size: 1.1em;
+}
+
 .form-group {
     margin-bottom: 20px;
 }
@@ -155,7 +165,7 @@ body {
 
 .result-card {
     background: #f8f9fa;
-    border-left: 4px solid #667eea;
+    border-left: 5px solid #667eea;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 6px;
@@ -164,6 +174,7 @@ body {
 
 .result-card:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border-left-color: #764ba2;
 }
 
 .result-card h3 {
@@ -231,8 +242,20 @@ body {
     color: #dc3545;
 }
 
-/* Risk Assessment */
-.risk-assessment p {
+/* Genomic Compatibility */
+#genomicCompatibility {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    color: #333;
+}
+
+#genomicCompatibility p {
+    margin: 8px 0;
+}
+
+/* Sensitivity Assessment */
+.sensitivity-assessment p {
     margin: 12px 0;
     font-size: 1.05em;
     color: #333;
@@ -243,6 +266,7 @@ body {
     border-radius: 20px;
     font-weight: 600;
     font-size: 0.95em;
+    display: inline-block;
 }
 
 .risk-badge.low {
@@ -301,6 +325,12 @@ body {
     line-height: 1.6;
 }
 
+.info-list p {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .header h1 {
@@ -357,5 +387,9 @@ body {
     .reset-btn {
         font-size: 1em;
         padding: 12px;
+    }
+
+    .section-title {
+        font-size: 1em;
     }
 }
