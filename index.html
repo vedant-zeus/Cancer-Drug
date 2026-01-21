@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cancer Drug Predictive Analysis</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>💊 Cancer Drug Predictive Analysis</h1>
+        <p>Predict drug efficacy and patient response</p>
+      </div>
+
+      <div class="content">
+        <!-- Input Form -->
+        <div class="form-section">
+          <h2>Patient Information & Drug Details</h2>
+          <form id="predictionForm">
+            <div class="form-group">
+              <label for="patientAge">Patient Age:</label>
+              <input
+                type="number"
+                id="patientAge"
+                placeholder="Enter age (18-100)"
+                min="18"
+                max="100"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cancerStage">Cancer Stage:</label>
+                <select id="cancerStage" required>
+                  <option value="">Select Stage</option>
+                  <option value="1">Stage I (Early)</option>
+                  <option value="2">Stage II (Intermediate)</option>
+                  <option value="3">Stage III (Advanced)</option>
+                  <option value="4">Stage IV (Metastatic)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="tumorSize">Tumor Size (mm):</label>
+                <input
+                  type="number"
+                  id="tumorSize"
+                  placeholder="Enter size in mm"
+                  min="0"
+                  max="500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="geneExpression">Gene Expression Level:</label>
+                <input
+                  type="number"
+                  id="geneExpression"
+                  placeholder="0.0 - 10.0"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="mutationCount">Mutation Count:</label>
+                <input
+                  type="number"
+                  id="mutationCount"
+                  placeholder="Number of mutations"
+                  min="0"
+                  max="1000"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="whiteBloodCells">White Blood Cells (K/uL):</label>
+                <input
+                  type="number"
+                  id="whiteBloodCells"
+                  placeholder="3-11 normal range"
+                  min="0"
+                  max="50"
+                  step="0.1"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="drugType">Drug Type:</label>
+                <select id="drugType" required>
+                  <option value="">Select Drug</option>
+                  <option value="chemotherapy">Chemotherapy</option>
+                  <option value="targeted">Targeted Therapy</option>
+                  <option value="immunotherapy">Immunotherapy</option>
+                  <option value="combination">Combination Therapy</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="priorTreatment">Prior Treatment History:</label>
+              <select id="priorTreatment" required>
+                <option value="">Select Option</option>
+                <option value="none">No Prior Treatment</option>
+                <option value="chemotherapy">Previous Chemotherapy</option>
+                <option value="radiation">Previous Radiation</option>
+                <option value="multiple">Multiple Prior Treatments</option>
+              </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Predict Efficacy</button>
+          </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none">
+          <h2>Prediction Results</h2>
+
+          <div class="result-card">
+            <div class="result-header">
+              <h3>Drug Efficacy Score</h3>
+              <div class="efficacy-percentage" id="efficacyScore">0%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <div class="result-card">
+            <h3>Response Prediction</h3>
+            <div class="prediction-result" id="predictionResult"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>Risk Assessment</h3>
+            <div class="risk-assessment">
+              <p>
+                <strong>Side Effect Risk:</strong>
+                <span class="risk-badge" id="sideEffectRisk"></span>
+              </p>
+              <p>
+                <strong>Treatment Tolerance:</strong>
+                <span class="risk-badge" id="treatmentTolerance"></span>
+              </p>
+            </div>
+          </div>
+
+          <div class="result-card">
+            <h3>Recommended Action</h3>
+            <div class="recommendation" id="recommendation"></div>
+          </div>
+
+          <button type="button" class="reset-btn" onclick="resetForm()">
+            New Analysis
+          </button>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+          <h2>About This Analysis</h2>
+          <p>
+            This predictive analysis tool uses patient parameters and drug
+            characteristics to estimate treatment efficacy. Results are for
+            educational purposes and should not replace professional medical
+            advice.
+          </p>
+          <div class="info-list">
+            <p><strong>Factors Considered:</strong></p>
+            <ul>
+              <li>Patient demographics and health status</li>
+              <li>Tumor characteristics and staging</li>
+              <li>Genetic markers and mutations</li>
+              <li>Drug type and mechanism</li>
+              <li>Prior treatment history</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("predictionForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          predictEfficacy();
+        });
+
+      function predictEfficacy() {
+        // Get form values
+        const age = parseInt(document.getElementById("patientAge").value);
+        const stage = parseInt(document.getElementById("cancerStage").value);
+        const tumorSize = parseFloat(
+          document.getElementById("tumorSize").value,
+        );
+        const geneExpression = parseFloat(
+          document.getElementById("geneExpression").value,
+        );
+        const mutationCount = parseInt(
+          document.getElementById("mutationCount").value,
+        );
+        const wbc = parseFloat(
+          document.getElementById("whiteBloodCells").value,
+        );
+        const drugType = document.getElementById("drugType").value;
+        const priorTreatment = document.getElementById("priorTreatment").value;
+
+        // Calculate efficacy score (0-100)
+        let efficacy = 100;
+
+        // Age factor
+        if (age < 30 || age > 75) efficacy -= 10;
+        if (age > 80) efficacy -= 10;
+
+        // Stage factor (lower stage = higher efficacy)
+        efficacy -= (stage - 1) * 15;
+
+        // Tumor size factor
+        if (tumorSize > 50) efficacy -= 20;
+        else if (tumorSize > 20) efficacy -= 10;
+
+        // Gene expression factor
+        efficacy += (geneExpression / 10) * 15;
+
+        // Mutation count factor
+        if (mutationCount > 500) efficacy -= 15;
+        else if (mutationCount > 200) efficacy -= 8;
+
+        // WBC factor
+        if (wbc < 3 || wbc > 11) efficacy -= 10;
+
+        // Drug type factor
+        if (drugType === "combination") efficacy += 15;
+        else if (drugType === "targeted") efficacy += 10;
+
+        // Prior treatment factor
+        if (priorTreatment === "multiple") efficacy -= 20;
+        else if (
+          priorTreatment === "chemotherapy" ||
+          priorTreatment === "radiation"
+        )
+          efficacy -= 5;
+
+        // Ensure score is within 0-100
+        efficacy = Math.max(0, Math.min(100, efficacy));
+
+        // Update UI
+        document.getElementById("efficacyScore").textContent =
+          Math.round(efficacy) + "%";
+        document.getElementById("progressFill").style.width = efficacy + "%";
+
+        // Prediction response
+        let prediction = "";
+        let riskLevel = "";
+        let tolerance = "";
+        let recommendation = "";
+
+        if (efficacy >= 80) {
+          prediction =
+            '<span class="excellent">Excellent Response Expected</span>';
+          riskLevel = '<span class="low">Low</span>';
+          tolerance = '<span class="high">High</span>';
+          recommendation =
+            "Proceed with recommended drug. Monitor regularly for response.";
+        } else if (efficacy >= 60) {
+          prediction = '<span class="good">Good Response Expected</span>';
+          riskLevel = '<span class="moderate">Moderate</span>';
+          tolerance = '<span class="moderate">Moderate</span>';
+          recommendation =
+            "Drug may be effective. Regular monitoring and dose adjustment may be needed.";
+        } else if (efficacy >= 40) {
+          prediction = '<span class="fair">Fair Response Expected</span>';
+          riskLevel = '<span class="moderate">Moderate</span>';
+          tolerance = '<span class="low">Low</span>';
+          recommendation =
+            "Consider alternative therapies or combination approach. Consult oncologist.";
+        } else {
+          prediction = '<span class="poor">Poor Response Expected</span>';
+          riskLevel = '<span class="high">High</span>';
+          tolerance = '<span class="low">Low</span>';
+          recommendation =
+            "Alternative treatment options should be explored. Seek specialist consultation.";
+        }
+
+        document.getElementById("predictionResult").innerHTML = prediction;
+        document.getElementById("sideEffectRisk").innerHTML = riskLevel;
+        document.getElementById("treatmentTolerance").innerHTML = tolerance;
+        document.getElementById("recommendation").textContent = recommendation;
+
+        // Show results section
+        document.getElementById("resultsSection").style.display = "block";
+        document
+          .getElementById("resultsSection")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function resetForm() {
+        document.getElementById("predictionForm").reset();
+        document.getElementById("resultsSection").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
